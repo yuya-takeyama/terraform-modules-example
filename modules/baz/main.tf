@@ -1,5 +1,5 @@
 resource "null_resource" "this" {
-  count = var.count
+  count = var.cnt
 
   triggers = var.triggers
 }

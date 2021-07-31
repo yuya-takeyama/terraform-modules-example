@@ -1,4 +1,4 @@
-variable "count" {
+variable "cnt" {
   type        = number
   description = "Number of null resources"
 }
