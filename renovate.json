@@ -1,5 +1,50 @@
 {
   "extends": [
     "config:base"
+  ],
+  "automerge": true,
+  "labels": [
+    "renovate:{{depName}}", "renovate:{{depName}}/{{newVersion}}",
+    "datasource:{{datasource}}"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "matchManagers": ["terraform"],
+      "matchPackagePatterns": [".*"],
+      "additionalBranchPrefix": "{{packageFileDir}}-",
+      "commitMessageSuffix": "({{packageFileDir}})"
+    },
+    {
+      "matchPackageNames": ["hashicorp/terraform"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "additionalBranchPrefix": "{{packageFileDir}}-",
+      "commitMessageSuffix": "({{packageFileDir}})"
+    },
+    {
+      "matchPackageNames": ["hashicorp/terraform"],
+      "matchUpdateTypes": ["minor"],
+      "automerge": false
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [".akoi.yml"],
+      "matchStrings": [
+        "version: (?<currentValue>.*?) # renovate: depName=(?<depName>.*?)\\n"
+      ],
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "fileMatch": ["\\.github/workflows/.*\\.ya?ml"],
+      "matchStrings": [
+        "terraform_version: (?<currentValue>.+?)\\n"
+      ],
+      "depNameTemplate": "hashicorp/terraform",
+      "datasourceTemplate": "github-releases"
+    }
   ]
 }
