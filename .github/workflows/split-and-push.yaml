@@ -44,5 +44,9 @@ jobs:
         run: |
           git subtree split --prefix=modules/${{ matrix.module }} -b git-subtree-split
           git checkout git-subtree-split
-          git remote add subtree-repo https://github.com/yuya-takeyama/terraform-module-${{ matrix.module }}.git
-          git push -f subtree-repo git-subtree-split:main
+      - uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.TERRAFORM_GITHUB_TOKEN }}
+          repository: yuya-takeyama/${{ matrix.module }}
+          force: true
+          branch: main
