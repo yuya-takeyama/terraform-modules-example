@@ -37,6 +37,7 @@ jobs:
     strategy:
       matrix:
         module: [foo, bar]
+      fail-fast: false
     steps:
       - uses: actions/checkout@v2
       - name: Split subtree and push to poly repo
