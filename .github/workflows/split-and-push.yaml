@@ -30,3 +30,18 @@ jobs:
           tfcmt apply -- terraform apply -input=false tfplan.binary
         env:
           GITHUB_TOKEN: ${{ secrets.TERRAFORM_GITHUB_TOKEN }}
+
+  split-and-push:
+    runs-on: ubuntu-latest
+    needs: prepare-repositories
+    strategy:
+      matrix:
+        module: [foo, bar]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Split subtree and push to poly repo
+        run: |
+          subtree split --prefix=modules/${{ matrix.module }} -b git-subtree-split
+          git checkout git-subtree-split
+          git remote add subtree-repo https://github.com/yuya-takeyama/terraform-module-${{ matrix.module }}.git
+          git push -f subtree-repo git-subtree-split:main
