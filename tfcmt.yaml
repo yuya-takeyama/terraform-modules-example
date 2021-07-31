@@ -1,0 +1,35 @@
+templates:
+  title_plan: '## {{if eq .ExitCode 1}}:x: {{end}}Plan result'
+  title_apply: '{{if eq .ExitCode 0}}{{template "apply_title" .}}{{else}}## :x: Failed to apply{{end}}'
+  command_output: |
+    <details>
+    <summary>Command output</summary>
+
+    {{wrapCode .CombinedOutput}}
+    </details>
+
+terraform:
+  plan:
+    template: |
+      {{template "title_plan" .}}
+      [Build details]({{ .Link }})
+      {{template "result" .}}
+      {{template "updated_resources" .}}
+      {{template "command_output" .}}
+  apply:
+    template: |
+      {{template "title_apply" .}}
+      [Build details]({{ .Link }})
+      {{template "result" .}}
+      {{template "command_output" .}}
+      {{if .ErrorMessages}}
+      ## :warning: Errors
+      {{range .ErrorMessages}}
+      * {{. -}}
+      {{- end}}{{end}}
+    when_parse_error:
+      template: |
+        {{template "title_apply" .}}
+        [CI link]({{ .Link }})
+        Failed to parse the result.
+        {{template "command_output" .}}
