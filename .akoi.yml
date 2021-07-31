@@ -1,0 +1,15 @@
+bin_path: ".akoi/pkgs/{{.OS}}/{{.Name}}/{{.Version}}/{{.Name}}"
+link_path: "{{.Name}}"
+packages:
+  github-comment:
+    url: 'https://github.com/suzuki-shunsuke/{{.Name}}/releases/download/{{.Version}}/{{.Name}}_{{trimPrefix "v" .Version}}_{{.OS}}_{{.Arch}}.tar.gz'
+    version: v3.1.0 # renovate: depName=suzuki-shunsuke/github-comment
+    files:
+    - name: github-comment
+      archive: "{{.Name}}"
+  tfcmt:
+    url: https://github.com/suzuki-shunsuke/{{.Name}}/releases/download/{{.Version}}/{{.Name}}_{{.OS}}_amd64.tar.gz
+    version: v1.1.0 # renovate: depName=suzuki-shunsuke/tfcmt
+    files:
+    - name: tfcmt
+      archive: tfcmt
