@@ -47,6 +47,6 @@ jobs:
       - uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.TERRAFORM_GITHUB_TOKEN }}
-          repository: yuya-takeyama/${{ matrix.module }}
+          repository: yuya-takeyama/terraform-module-${{ matrix.module }}
           force: true
           branch: main
