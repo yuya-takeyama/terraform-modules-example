@@ -31,12 +31,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TERRAFORM_GITHUB_TOKEN }}
 
+  load-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.format-modules.outputs.result }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: get-modules
+        run: |
+          echo "::set-output name=modules::$(node github-repositories/get-modules.js)"
+      - id: format-modules
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const modules = ${{ toJSON(fromJSON(steps.get-modules.outputs.modules).modules) }}.split('\n');
+            return modules;
+
   split-and-push:
     runs-on: ubuntu-latest
-    needs: prepare-repositories
+    needs: [prepare-repositories, load-matrix]
     strategy:
       matrix:
-        module: [foo, bar]
+        module: ${{ fromJSON(needs.load-matrix.outputs.modules) }}
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
