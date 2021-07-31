@@ -59,7 +59,15 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Split subtree and push to poly repo
+      - name: Check if version.txt is updated
+        uses: getsentry/paths-filter@v2
+        id: version-updated
+        with:
+          token: ${{ github.token }}
+          filters: |
+            version:
+              - 'modules/${{ matrix.module }}/version.txt'
+      - name: Split subtree
         run: |
           git subtree split --prefix=modules/${{ matrix.module }} -b git-subtree-split
           git checkout git-subtree-split
@@ -69,3 +77,17 @@ jobs:
           repository: yuya-takeyama/terraform-module-${{ matrix.module }}
           force: true
           branch: main
+      - name: Push version tag
+        uses: actions/github-script@v4
+        if: ${{ steps.version-updated.outputs.version == 'true' }}
+        with:
+          github-token: ${{ secrets.TERRAFORM_GITHUB_TOKEN }}
+          script: |
+            const readFileSync = require('fs').readFileSync;
+            const execSync = require('child_process').execSync;
+            const tag = readFileSync('version.txt').toString().trim();
+            const sha1 = execSync('git rev-parse HEAD').toString().trim();
+            const res = await github.request('POST /repos/yuya-takeyama/terraform-module-${{ matrix.module }}/releases', {
+              tag_name: tag,
+              target_commitish: sha1,
+            });
