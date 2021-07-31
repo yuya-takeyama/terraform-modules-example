@@ -25,7 +25,6 @@ jobs:
           export_default_credentials: true
       - name: Run terraform apply
         run: |
-          github-comment hide
           github-comment exec -- terraform init -input=false
           tfcmt plan -- terraform plan -input=false -out tfplan.binary
           tfcmt apply -- terraform apply -input=false tfplan.binary
