@@ -18,7 +18,7 @@ jobs:
           terraform_version: v1.0.3
           terraform_wrapper: false
       - id: akoi
-        uses: int128/akoi-action@main
+        uses: int128/akoi-action@v2
       - uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           service_account_key: ${{ secrets.GCP_SERVIEC_ACCOUNT_KEY }}
