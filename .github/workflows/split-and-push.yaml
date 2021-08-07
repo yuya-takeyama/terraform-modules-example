@@ -74,7 +74,7 @@ jobs:
       - uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.TERRAFORM_GITHUB_TOKEN }}
-          repository: yuya-takeyama/terraform-module-${{ matrix.module }}
+          repository: yuya-takeyama/terraform-module-example-${{ matrix.module }}
           force: true
           branch: main
       - name: Push version tag
@@ -87,7 +87,7 @@ jobs:
             const execSync = require('child_process').execSync;
             const tag = readFileSync('version.txt').toString().trim();
             const sha1 = execSync('git rev-parse HEAD').toString().trim();
-            const res = await github.request('POST /repos/yuya-takeyama/terraform-module-${{ matrix.module }}/releases', {
+            const res = await github.request('POST /repos/yuya-takeyama/terraform-module-example-${{ matrix.module }}/releases', {
               tag_name: tag,
               target_commitish: sha1,
             });
