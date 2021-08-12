@@ -7,7 +7,7 @@ resource "github_repository" "readonly-poly-repo" {
 
   name         = "terraform-module-example-${each.key}"
   description  = "This repository is read only"
-  homepage_url = "https://github.com/yuya-takeyama/terraform-modules"
+  homepage_url = "https://github.com/yuya-takeyama/terraform-modules-example"
 
   visibility = "public"
 
