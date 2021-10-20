@@ -41,7 +41,7 @@ jobs:
         run: |
           echo "::set-output name=modules::$(node github-repositories/get-modules.js)"
       - id: format-modules
-        uses: actions/github-script@v4
+        uses: actions/github-script@v5
         with:
           script: |
             const modules = ${{ toJSON(fromJSON(steps.get-modules.outputs.modules).modules) }}.split('\n');
@@ -78,7 +78,7 @@ jobs:
           force: true
           branch: main
       - name: Push version tag
-        uses: actions/github-script@v4
+        uses: actions/github-script@v5
         if: ${{ steps.version-updated.outputs.version == 'true' }}
         with:
           github-token: ${{ secrets.TERRAFORM_GITHUB_TOKEN }}
