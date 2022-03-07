@@ -12,7 +12,7 @@ jobs:
       run:
         working-directory: github-repositories
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: v1.0.4
@@ -36,7 +36,7 @@ jobs:
     outputs:
       modules: ${{ steps.format-modules.outputs.result }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: get-modules
         run: |
           echo "::set-output name=modules::$(node github-repositories/get-modules.js)"
@@ -55,7 +55,7 @@ jobs:
         module: ${{ fromJSON(needs.load-matrix.outputs.modules) }}
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
           fetch-depth: 0
