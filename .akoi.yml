@@ -9,7 +9,7 @@ packages:
       archive: "{{.Name}}"
   tfcmt:
     url: https://github.com/suzuki-shunsuke/{{.Name}}/releases/download/{{.Version}}/{{.Name}}_{{.OS}}_amd64.tar.gz
-    version: v1.1.0 # renovate: depName=suzuki-shunsuke/tfcmt
+    version: v3.2.1 # renovate: depName=suzuki-shunsuke/tfcmt
     files:
     - name: tfcmt
       archive: tfcmt
